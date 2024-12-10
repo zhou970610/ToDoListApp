@@ -12,6 +12,7 @@ namespace ToDoListApp
 {
     public partial class frmToDoList : Form
     {
+        private static TasksManager TasksManager = new TasksManager();
         public frmToDoList()
         {
             InitializeComponent();
@@ -21,8 +22,8 @@ namespace ToDoListApp
         private static int _id_counter=0;
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Task newTask = new Task(_id_counter++,txtAdd.Text,"",DateTime.Now);
-            lbToDoList.Items.Add(newTask);
+            TasksManager.AddTask( new Task(_id_counter++,txtAdd.Text,"",DateTime.Now));
+            lbToDoList.Items.AddRange(TasksManager.GetTasksWithoutAlreadyExist(lbToDoList.Items.Cast<Task>().ToList()).ToArray());
         }
 
         private void lbToDoList_SelectedIndexChanged(object sender, EventArgs e)
